@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Atelier Maram — Architecture &amp; Digital Art</title>
+<meta name="description" content="Atelier Maram is the practice of Layla Khoury, working between architecture and digital art across Beirut, Sharjah, and Berlin." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Barlow+Condensed:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --ember: #D94F2B;
+    --paper: #F5F0EB;
+    --paper-2: #ECE5DC;
+    --ink: #1B2A4A;
+    --rule: rgba(27, 42, 74, 0.18);
+
+    --serif: "Cormorant Garamond", "Times New Roman", serif;
+    --sans: "Barlow Condensed", "Helvetica Neue", Arial, sans-serif;
+    --arabic: "Amiri", "Times New Roman", serif;
+
+    --pad-x: clamp(24px, 5vw, 80px);
+    --max: 1440px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; border-radius: 0 !important; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  img, video { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+
+  ::selection { background: var(--ember); color: var(--paper); }
+
+  /* ---------- Typography ---------- */
+  .serif   { font-family: var(--serif); font-weight: 500; letter-spacing: -0.005em; }
+  .arabic  { font-family: var(--arabic); direction: rtl; unicode-bidi: isolate; }
+  .eyebrow {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .italic  { font-style: italic; }
+  .ember   { color: var(--ember); }
+
+  /* ---------- Diamond / chevron pattern ---------- */
+  .pattern-bg {
+    position: relative;
+    isolation: isolate;
+  }
+  .pattern-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='%23F5F0EB' stroke-width='0.7'><path d='M40 0 L80 40 L40 80 L0 40 Z'/><path d='M40 0 L40 80 M0 40 L80 40'/><path d='M20 20 L60 20 L60 60 L20 60 Z'/></g></svg>");
+    background-size: 80px 80px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* ---------- Header / Sticky nav ---------- */
+  header.site {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    backdrop-filter: saturate(1.1);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px var(--pad-x);
+    gap: 24px;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 14px;
+    font-family: var(--serif);
+    font-size: 22px;
+    letter-spacing: 0.01em;
+  }
+  .logo .marks {
+    color: var(--navy);
+    font-size: 11px;
+    letter-spacing: 6px;
+    transform: translateY(-2px);
+  }
+  .logo .word {
+    font-style: italic;
+    font-weight: 500;
+  }
+  .logo .word .accent { color: var(--ember); font-style: italic; }
+  .logo .ar {
+    font-family: var(--arabic);
+    color: var(--navy);
+    opacity: 0.6;
+    font-size: 18px;
+    margin-left: 4px;
+    direction: rtl;
+  }
+
+  nav.primary {
+    display: flex;
+    gap: 36px;
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  nav.primary a {
+    position: relative;
+    padding: 4px 0;
+    color: var(--navy);
+  }
+  nav.primary a:hover { color: var(--ember); }
+  nav.primary a:hover::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1px;
+    background: var(--ember);
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 12px var(--pad-x);
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 11px;
+    overflow-x: auto;
+  }
+  .filter-row .label {
+    color: var(--navy);
+    opacity: 0.5;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.05em;
+    font-family: var(--serif);
+    font-size: 13px;
+  }
+  .filter-row .filters { display: flex; gap: 28px; align-items: center; }
+  .filter-row .sep { opacity: 0.3; }
+  .filter-row button {
+    color: var(--navy);
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .filter-row button:hover { opacity: 1; }
+  .filter-row button.active {
+    color: var(--ember);
+    opacity: 1;
+    border-bottom: 1px solid var(--ember);
+    padding-bottom: 2px;
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section.block {
+    padding: 120px var(--pad-x) 100px;
+    max-width: var(--max);
+    margin: 0 auto;
+    position: relative;
+  }
+  .section-head {
+    position: relative;
+    margin-bottom: 64px;
+  }
+  .section-num {
+    position: absolute;
+    top: -90px;
+    left: -10px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ember);
+    opacity: 0.16;
+    font-size: clamp(140px, 22vw, 320px);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+    z-index: 0;
+  }
+  .section-title {
+    position: relative;
+    z-index: 1;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(36px, 5.4vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .section-title .ar {
+    font-family: var(--arabic);
+    font-size: 0.6em;
+    color: var(--navy);
+    opacity: 0.55;
+    margin-left: 24px;
+    direction: rtl;
+    font-weight: 400;
+  }
+  .section-sub {
+    margin-top: 14px;
+    max-width: 60ch;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--navy);
+    opacity: 0.75;
+  }
+
+  /* ---------- Stripe divider ---------- */
+  .stripe {
+    height: 6px;
+    width: 100%;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        var(--navy) 0 56px,
+        var(--ember) 56px 72px,
+        var(--navy) 72px 152px,
+        var(--ember) 152px 168px
+      );
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    background: var(--navy);
+    color: var(--paper);
+    padding: 140px var(--pad-x) 120px;
+    overflow: hidden;
+  }
+  .hero .inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero .eyebrow { color: var(--ember); }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(56px, 9vw, 148px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 28px 0 24px;
+    max-width: 14ch;
+  }
+  .hero h1 .it { font-style: italic; font-weight: 500; }
+  .hero h1 .am { color: var(--ember); }
+  .hero .ar-tag {
+    font-family: var(--arabic);
+    direction: rtl;
+    color: var(--paper);
+    opacity: 0.55;
+    font-size: clamp(18px, 2vw, 28px);
+    margin-bottom: 56px;
+    letter-spacing: 0;
+  }
+  .hero .meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    border-top: 1px solid rgba(245, 240, 235, 0.18);
+    padding-top: 32px;
+    max-width: 880px;
+  }
+  .hero .meta div .eyebrow { color: rgba(245, 240, 235, 0.5); }
+  .hero .meta div p {
+    margin: 8px 0 0;
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.45;
+    font-style: italic;
+    opacity: 0.95;
+  }
+  .hero .corner {
+    position: absolute;
+    top: 32px;
+    right: var(--pad-x);
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 235, 0.55);
+    text-align: right;
+  }
+  .hero .corner span { display: block; }
+  .hero .corner .it { font-style: italic; font-family: var(--serif); text-transform: none; letter-spacing: 0; opacity: 0.9; font-size: 13px; margin-top: 4px; }
+
+  /* ---------- Gallery grid ---------- */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 56px;
+    gap: 28px;
+    grid-auto-flow: dense;
+  }
+  .card {
+    position: relative;
+    overflow: hidden;
+    background: var(--navy);
+    cursor: pointer;
+    isolation: isolate;
+  }
+  .card.tall    { grid-column: span 4; grid-row: span 9; }
+  .card.square  { grid-column: span 4; grid-row: span 5; }
+  .card.wide    { grid-column: span 8; grid-row: span 5; }
+  .card.land    { grid-column: span 6; grid-row: span 4; }
+  .card.portrait{ grid-column: span 4; grid-row: span 8; }
+
+  .card .media,
+  .card .media img,
+  .card .media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.1, 1), filter 0.6s;
+    filter: saturate(0.92) contrast(1.02);
+  }
+  .card:hover .media img,
+  .card:hover .media video {
+    transform: scale(1.04);
+  }
+
+  .card .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(27, 42, 74, 0) 35%, rgba(27, 42, 74, 0.78) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1;
+  }
+  .card:hover .overlay { opacity: 1; }
+
+  .card .meta {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 22px;
+    z-index: 2;
+    color: var(--paper);
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  .card:hover .meta { transform: translateY(0); opacity: 1; }
+  .card .meta .cat {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 11px;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+  .card .meta .title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1.1;
+    margin: 0 0 6px;
+  }
+  .card .meta .sub {
+    font-family: var(--sans);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.85;
+  }
+  .card .corner-num {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    z-index: 2;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--paper);
+    font-size: 13px;
+    opacity: 0.0;
+    transition: opacity 0.5s;
+  }
+  .card:hover .corner-num { opacity: 0.9; }
+
+  .card.is-hidden { display: none; }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .portrait-frame {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--navy);
+    overflow: hidden;
+  }
+  .portrait-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.15) contrast(1.02);
+  }
+  .portrait-frame::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(245, 240, 235, 0.35);
+    pointer-events: none;
+  }
+
+  .bio .lede {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.4;
+    font-style: italic;
+    color: var(--navy);
+    margin: 0 0 28px;
+    max-width: 38ch;
+  }
+  .bio p {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0 0 20px;
+    max-width: 64ch;
+    color: rgba(27, 42, 74, 0.92);
+  }
+  .bio .ar-bio {
+    font-family: var(--arabic);
+    direction: rtl;
+    font-size: 19px;
+    line-height: 1.85;
+    color: var(--navy);
+    opacity: 0.78;
+    border-right: 2px solid var(--ember);
+    padding-right: 20px;
+    margin-top: 32px;
+    max-width: 64ch;
+  }
+
+  .about-meta {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px 60px;
+  }
+  .about-meta h3 {
+    grid-column: span 12;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 4px;
+    color: var(--navy);
+  }
+  .about-meta h3 .num {
+    color: var(--ember);
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    margin-right: 14px;
+    vertical-align: middle;
+  }
+
+  .col-clients   { grid-column: span 5; }
+  .col-press     { grid-column: span 7; }
+  .col-talks     { grid-column: span 5; }
+  .col-exhibs    { grid-column: span 7; }
+
+  .plain-list {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 0;
+    columns: 2;
+    column-gap: 40px;
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+  .plain-list li { break-inside: avoid; }
+  .plain-list li.it { font-style: italic; color: var(--navy); opacity: 0.75; }
+
+  .press-list, .talks-list, .exh-list {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 0;
+    font-family: var(--serif);
+  }
+  .press-list li, .talks-list li, .exh-list li {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 16.5px;
+  }
+  .press-list li .yr, .talks-list li .yr, .exh-list li .yr {
+    color: var(--ember);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .press-list li .what, .talks-list li .what, .exh-list li .what {
+    color: var(--navy);
+  }
+  .press-list li .what em { color: rgba(27, 42, 74, 0.72); }
+  .press-list li .src, .talks-list li .src, .exh-list li .src {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    color: rgba(27, 42, 74, 0.6);
+    text-align: right;
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    background: var(--navy);
+    color: var(--paper);
+    padding: 100px var(--pad-x) 48px;
+    margin-top: 0;
+  }
+  footer.site .inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  footer.site .eyebrow { color: rgba(245, 240, 235, 0.55); margin-bottom: 16px; display: block; }
+  footer.site h4 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 28px;
+    margin: 0 0 12px;
+  }
+  footer.site h4 .am { color: var(--ember); }
+  footer.site .ar {
+    font-family: var(--arabic);
+    direction: rtl;
+    color: rgba(245, 240, 235, 0.6);
+    font-size: 18px;
+    line-height: 1.7;
+    margin-top: 8px;
+  }
+  footer.site address {
+    font-style: normal;
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  footer.site a { color: var(--paper); }
+  footer.site a:hover { color: var(--ember); }
+  footer.site ul { list-style: none; padding: 0; margin: 0; font-family: var(--serif); font-size: 17px; line-height: 1.85; }
+  footer.site .colophon {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(245, 240, 235, 0.18);
+    margin-top: 60px;
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    font-size: 11px;
+    color: rgba(245, 240, 235, 0.55);
+  }
+  footer.site .colophon .ar {
+    font-family: var(--arabic);
+    direction: rtl;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+    color: rgba(245, 240, 235, 0.55);
+    margin: 0;
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  [data-reveal].in { opacity: 1; transform: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px) {
+    .nav-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+    nav.primary { gap: 22px; }
+    .gallery { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 40px; gap: 18px; }
+    .card.tall, .card.portrait { grid-column: span 6; grid-row: span 7; }
+    .card.square { grid-column: span 3; grid-row: span 4; }
+    .card.wide   { grid-column: span 6; grid-row: span 4; }
+    .card.land   { grid-column: span 6; grid-row: span 4; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .col-clients, .col-press, .col-talks, .col-exhibs { grid-column: span 12; }
+    footer.site .inner { grid-template-columns: 1fr 1fr; }
+    .hero .meta { grid-template-columns: 1fr; }
+    .plain-list { columns: 1; }
+    .press-list li, .talks-list li, .exh-list li {
+      grid-template-columns: 60px 1fr;
+    }
+    .press-list li .src, .talks-list li .src, .exh-list li .src {
+      grid-column: 2; text-align: left;
+    }
+  }
+  @media (max-width: 600px) {
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .card.tall, .card.portrait, .card.wide, .card.land, .card.square { grid-column: span 2; grid-row: span 5; }
+    .hero h1 { font-size: clamp(44px, 12vw, 76px); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <a class="logo" href="#top" aria-label="Atelier Maram, home">
+      <span class="marks" aria-hidden="true">◆ ◆ ◆</span>
+      <span class="word">atelier <span class="accent">maram</span></span>
+      <span class="ar" aria-hidden="true">مَرام</span>
+    </a>
+    <nav class="primary" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <div class="filter-row" id="filterBar" role="tablist" aria-label="Filter projects by category">
+    <span class="label">Browse</span>
+    <div class="filters">
+      <button class="active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <span class="sep" aria-hidden="true">/</span>
+      <button data-filter="architecture" role="tab" aria-selected="false">Architecture</button>
+      <span class="sep" aria-hidden="true">/</span>
+      <button data-filter="digital" role="tab" aria-selected="false">Digital</button>
+      <span class="sep" aria-hidden="true">/</span>
+      <button data-filter="collaborations" role="tab" aria-selected="false">Collaborations</button>
+    </div>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<section class="hero pattern-bg" aria-labelledby="heroTitle">
+  <div class="corner">
+    <span>Est. 2018</span>
+    <span>Beirut · Sharjah · Berlin</span>
+    <span class="it">— Issue N° 24</span>
+  </div>
+
+  <div class="inner">
+    <p class="eyebrow">An Architecture &amp; Digital Art Studio</p>
+    <h1 id="heroTitle">
+      <span class="it">Where</span> geometry<br>
+      meets <span class="am it">memory.</span>
+    </h1>
+    <p class="ar-tag" lang="ar">حيث تلتقي الهندسة بالذاكرة — استوديو للعمارة والفنّ الرقميّ</p>
+
+    <div class="meta">
+      <div>
+        <span class="eyebrow">Practice</span>
+        <p>Pavilions, public installations, and computational works rooted in Levantine and Gulf geometries.</p>
+      </div>
+      <div>
+        <span class="eyebrow">Director</span>
+        <p>Layla Khoury — architect, artist, and lecturer at the Sharjah Architecture Triennial.</p>
+      </div>
+      <div>
+        <span class="eyebrow">Currently</span>
+        <p>A solo commission opens at <em>Fondation Cartier</em>, Paris — September 2026.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe" role="presentation"></div>
+
+<section class="block" id="work" aria-labelledby="workTitle">
+  <div class="section-head">
+    <span class="section-num" aria-hidden="true">01</span>
+    <h2 class="section-title" id="workTitle">
+      Selected Work
+      <span class="ar" lang="ar">أعمال مختارة</span>
+    </h2>
+    <p class="section-sub">Twelve years of building, drawing, and computing — a working archive of the studio's commissioned and self-initiated projects.</p>
+  </div>
+
+  <div class="gallery" id="gallery">
+
+    <article class="card tall" data-cat="architecture">
+      <div class="media">
+        <img loading="lazy" alt="Mashrabiya Pavilion — perforated lattice screen detail"
+             src="https://images.unsplash.com/photo-1591033594798-33227a05780d?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 01</span>
+      <div class="meta">
+        <div class="cat">Architecture</div>
+        <h3 class="title">Mashrabiya Pavilion</h3>
+        <div class="sub">2024 · Sharjah Biennial 16</div>
+      </div>
+    </article>
+
+    <article class="card wide" data-cat="digital">
+      <div class="media">
+        <img loading="lazy" alt="Echoes of the Souq — projection map of marketplace acoustics"
+             src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 02</span>
+      <div class="meta">
+        <div class="cat">Digital</div>
+        <h3 class="title">Echoes of the Souq</h3>
+        <div class="sub">2023 · V&amp;A Museum, London</div>
+      </div>
+    </article>
+
+    <article class="card square" data-cat="collaborations">
+      <div class="media">
+        <img loading="lazy" alt="The Oasis Index — desert palm grid study"
+             src="https://images.unsplash.com/photo-1547130122-af91c6c6e18a?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 03</span>
+      <div class="meta">
+        <div class="cat">Collaborations</div>
+        <h3 class="title">The Oasis Index</h3>
+        <div class="sub">2024 · w/ Studio Drift</div>
+      </div>
+    </article>
+
+    <article class="card square" data-cat="architecture">
+      <div class="media">
+        <img loading="lazy" alt="Concrete Lattice — brutalist façade"
+             src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 04</span>
+      <div class="meta">
+        <div class="cat">Architecture</div>
+        <h3 class="title">Concrete Lattice</h3>
+        <div class="sub">2022 · RAK Cultural Council</div>
+      </div>
+    </article>
+
+    <article class="card wide" data-cat="collaborations">
+      <div class="media">
+        <video loading="lazy" autoplay loop muted playsinline preload="metadata"
+               poster="https://images.unsplash.com/photo-1633186710895-309db2eca3b5?auto=format&amp;fit=crop&amp;w=1600&amp;q=80">
+          <source src="https://assets.mixkit.co/videos/4787/4787-720.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 05</span>
+      <div class="meta">
+        <div class="cat">Collaborations</div>
+        <h3 class="title">Datascape: Khaleej</h3>
+        <div class="sub">2024 · w/ Refik Anadol Studio</div>
+      </div>
+    </article>
+
+    <article class="card portrait" data-cat="architecture">
+      <div class="media">
+        <img loading="lazy" alt="House of Mirrors — reflective glass volume in a dune"
+             src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 06</span>
+      <div class="meta">
+        <div class="cat">Architecture</div>
+        <h3 class="title">House of Mirrors</h3>
+        <div class="sub">2023 · Private Commission, AlUla</div>
+      </div>
+    </article>
+
+    <article class="card square" data-cat="digital">
+      <div class="media">
+        <img loading="lazy" alt="Geometric Devotions — generative pattern study"
+             src="https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 07</span>
+      <div class="meta">
+        <div class="cat">Digital</div>
+        <h3 class="title">Geometric Devotions</h3>
+        <div class="sub">2025 · Fondation Cartier (forthcoming)</div>
+      </div>
+    </article>
+
+    <article class="card wide" data-cat="architecture">
+      <div class="media">
+        <img loading="lazy" alt="Salt Flats Observatory — long horizon site"
+             src="https://images.unsplash.com/photo-1517398867437-49ce58b50139?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 08</span>
+      <div class="meta">
+        <div class="cat">Architecture</div>
+        <h3 class="title">Salt Flats Observatory</h3>
+        <div class="sub">2023 · Diriyah Foundation</div>
+      </div>
+    </article>
+
+    <article class="card tall" data-cat="digital">
+      <div class="media">
+        <img loading="lazy" alt="The Pattern Archive — algorithmic catalog of motifs"
+             src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" />
+      </div>
+      <div class="overlay" aria-hidden="true"></div>
+      <span class="corner-num">N° 09</span>
+      <div class="meta">
+        <div class="cat">Digital</div>
+        <h3 class="title">The Pattern Archive</h3>
+        <div class="sub">2024 · Self-Initiated</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<div class="stripe" role="presentation"></div>
+
+<section class="block" id="about" aria-labelledby="aboutTitle">
+  <div class="section-head">
+    <span class="section-num" aria-hidden="true">02</span>
+    <h2 class="section-title" id="aboutTitle">
+      About the Studio
+      <span class="ar" lang="ar">عن الاستوديو</span>
+    </h2>
+    <p class="section-sub">A practice between disciplines — drawing on inherited geometries, working with quiet materials, and translating both into spaces that can be entered or scrolled.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="portrait-frame" data-reveal>
+      <img loading="lazy" alt="Layla Khoury, founder and director of Atelier Maram"
+           src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&amp;fit=crop&amp;w=900&amp;q=80" />
+    </div>
+
+    <div class="bio" data-reveal>
+      <p class="lede">Atelier Maram is the practice of <span class="ember italic">Layla Khoury</span> — an architect and digital artist working between Beirut, Sharjah, and Berlin.</p>
+      <p>Founded in 2018, the studio operates at the intersection of built environments and computational art. Our work translates the geometries of the Levant and the Gulf — the muqarnas, the mashrabiya, the courtyard, the alley — into spaces that feel inherited and new at once.</p>
+      <p>We build slowly. A pavilion may take three years; a digital archive, five. We collaborate with cultural institutions, foundations, and artists whose work asks the same questions about pattern, memory, and place.</p>
+      <p class="ar-bio" lang="ar">مَرام هو الاستوديو الذي تديره ليلى خوري، معماريّة وفنّانة رقميّة تعمل بين بيروت والشارقة وبرلين. تأسس عام ٢٠١٨، ويعمل عند تقاطع البيئة المبنيّة والفنّ الحاسوبيّ، مترجماً هندسة المشرق والخليج إلى فضاءات موروثة ومستحدثة في آنٍ واحد.</p>
+    </div>
+  </div>
+
+  <div class="about-meta">
+
+    <div class="col-clients" data-reveal>
+      <h3><span class="num">i.</span>Selected Clients</h3>
+      <ul class="plain-list">
+        <li>Sharjah Art Foundation</li>
+        <li>Victoria &amp; Albert Museum</li>
+        <li>Fondation Cartier pour l'art contemporain</li>
+        <li>Diriyah Foundation</li>
+        <li>RAK Cultural Council</li>
+        <li class="it">Studio Drift</li>
+        <li class="it">Refik Anadol Studio</li>
+        <li>Aga Khan Trust for Culture</li>
+        <li>Alserkal Avenue</li>
+        <li>Beirut Design Week</li>
+        <li>Onassis Foundation</li>
+        <li class="it">Private commissions</li>
+      </ul>
+    </div>
+
+    <div class="col-press" data-reveal>
+      <h3><span class="num">ii.</span>Press &amp; Publications</h3>
+      <ul class="press-list">
+        <li><span class="yr">2025</span><span class="what">"A New Levantine Geometry" — feature interview</span><span class="src">Domus</span></li>
+        <li><span class="yr">2024</span><span class="what"><em>"Maram's Quiet Revolution"</em> — cover story</span><span class="src">Dezeen</span></li>
+        <li><span class="yr">2024</span><span class="what">"Pattern as Politics" — essay by N. Fadel</span><span class="src">Apollo</span></li>
+        <li><span class="yr">2023</span><span class="what">"The Architect Who Codes" — profile</span><span class="src">The National</span></li>
+        <li><span class="yr">2022</span><span class="what"><em>Featured monograph</em></span><span class="src">Wallpaper*, Frame, AR</span></li>
+      </ul>
+    </div>
+
+    <div class="col-talks" data-reveal>
+      <h3><span class="num">iii.</span>Talks &amp; Lectures</h3>
+      <ul class="talks-list">
+        <li><span class="yr">2025</span><span class="what">World Architecture Festival</span><span class="src">Singapore</span></li>
+        <li><span class="yr">2024</span><span class="what">Sharjah Architecture Triennial — keynote</span><span class="src">Sharjah</span></li>
+        <li><span class="yr">2024</span><span class="what">TEDx Beirut — "On Inherited Geometry"</span><span class="src">Beirut</span></li>
+        <li><span class="yr">2023</span><span class="what">Harvard GSD — Loeb Lecture Series</span><span class="src">Cambridge</span></li>
+        <li><span class="yr">2022</span><span class="what">Strelka Institute — guest critic</span><span class="src">Moscow</span></li>
+      </ul>
+    </div>
+
+    <div class="col-exhibs" data-reveal>
+      <h3><span class="num">iv.</span>Exhibitions</h3>
+      <ul class="exh-list">
+        <li><span class="yr">2026</span><span class="what"><em>Geometric Devotions</em> (solo, forthcoming)</span><span class="src">Fondation Cartier · Paris</span></li>
+        <li><span class="yr">2024</span><span class="what">Sharjah Biennial 16 — group exhibition</span><span class="src">Sharjah · UAE</span></li>
+        <li><span class="yr">2024</span><span class="what">Ars Electronica — group</span><span class="src">Linz · AT</span></li>
+        <li><span class="yr">2023</span><span class="what"><em>Echoes of the Souq</em> — commission</span><span class="src">V&amp;A · London</span></li>
+        <li><span class="yr">2023</span><span class="what">Diriyah Contemporary Art Biennale</span><span class="src">Diriyah · KSA</span></li>
+        <li><span class="yr">2022</span><span class="what"><em>Folded Ground</em> (solo)</span><span class="src">Beirut Art Center</span></li>
+        <li><span class="yr">2021</span><span class="what">Dubai Design Week — group</span><span class="src">Dubai · UAE</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<div class="stripe" role="presentation"></div>
+
+<footer class="site pattern-bg" id="contact">
+  <div class="inner">
+    <div>
+      <span class="eyebrow">— Atelier</span>
+      <h4>atelier <span class="am italic">maram</span></h4>
+      <p class="ar" lang="ar">مَرام — استوديو للعمارة والفنّ الرقميّ</p>
+    </div>
+
+    <div>
+      <span class="eyebrow">Studio</span>
+      <address>
+        Studio M07<br>
+        Alserkal Avenue<br>
+        Al Quoz 1, Dubai<br>
+        United Arab Emirates
+      </address>
+    </div>
+
+    <div>
+      <span class="eyebrow">Inquiries</span>
+      <ul>
+        <li><a href="mailto:studio@ateliermaram.com">studio@ateliermaram.com</a></li>
+        <li><a href="mailto:press@ateliermaram.com">press@ateliermaram.com</a></li>
+        <li class="it" style="opacity:0.6;font-style:italic;">By appointment only</li>
+      </ul>
+    </div>
+
+    <div>
+      <span class="eyebrow">Elsewhere</span>
+      <ul>
+        <li><a href="#" rel="noopener">Instagram — @ateliermaram</a></li>
+        <li><a href="#" rel="noopener">Are.na — /ateliermaram</a></li>
+        <li><a href="#" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+
+    <div class="colophon">
+      <span>© 2018 — 2026 · Atelier Maram · All rights reserved</span>
+      <span class="ar" lang="ar">جميع الحقوق محفوظة</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const filterBar = document.getElementById("filterBar");
+    const gallery   = document.getElementById("gallery");
+    const cards     = Array.from(gallery.querySelectorAll(".card"));
+
+    filterBar.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-filter]");
+      if (!btn) return;
+      filterBar.querySelectorAll("button").forEach(b => {
+        b.classList.toggle("active", b === btn);
+        b.setAttribute("aria-selected", b === btn ? "true" : "false");
+      });
+      const f = btn.dataset.filter;
+      cards.forEach(card => {
+        const match = (f === "all") || card.dataset.cat === f;
+        card.classList.toggle("is-hidden", !match);
+      });
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll("[data-reveal]").forEach(el => io.observe(el));
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (ev) => {
+        const id = a.getAttribute("href").slice(1);
+        const t  = document.getElementById(id);
+        if (!t) return;
+        ev.preventDefault();
+        t.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
